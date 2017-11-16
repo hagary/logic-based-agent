@@ -22,7 +22,7 @@
 hs_err_pid*
 
 #Eclipse files
-/.metadata/
+.metadata/
 bin/
 tmp/
 *.tmp

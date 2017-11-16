@@ -1,0 +1,6 @@
+3 3
+B O T
+O A O
+B O B
+
+Grid with EXPLICIT no solution since agent is surrounded by obstacles.

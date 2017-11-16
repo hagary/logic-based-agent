@@ -8,12 +8,13 @@ public class Main {
 		/*
 		 * Uncomment the following line to input the file name of a manual grid.
 		 */
-		//Grid grid = Grid.createGridFromFile("Sol2-DFS");
+		Grid grid = Grid.createGridFromFile("Sol-Trivial2");
 		/*
 		 * Generate a random grid.
 		 */
-		Grid grid = GenGrid();
+//		Grid grid = GenGrid();
 		grid.writePrologFacts();
+		grid.writePrologQuery();
 		System.out.println(grid);
 	}
 

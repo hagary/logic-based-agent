@@ -337,7 +337,7 @@ public class Grid {
 		 */
 		pw.printf("dimensions(%d,%d).\n", m, n);
 		pw.printf("agent(%d, %d, %s).\n", agentPosition.getX(), agentPosition.getY(), initialState);		
-		
+
 		/* 
 		 * State cell types and positions as facts.
 		 */
@@ -362,5 +362,19 @@ public class Grid {
 			}
 		}
 		pw.flush();
+		pw.close();
+	}
+	public void writePrologQuery() throws FileNotFoundException
+	{
+		PrintWriter pw = new PrintWriter(new File("query.pl"));
+		pw.println("query(S):-");
+		pw.printf("agent(%d,%d,S)", teleportalPosition.getX(), teleportalPosition.getY());
+		for (int i = 0;i < m; i++)
+			for (int j = 0;j < n; j++)
+				if (grid[i][j].getType()==CellType.PAD)
+					pw.printf(",\nrock(%d,%d,S)",i,j);
+		pw.print(".");
+		pw.flush();
+		pw.close();
 	}
 }

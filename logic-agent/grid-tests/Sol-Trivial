@@ -1,0 +1,10 @@
+5 3
+B B T
+B B B
+B B B
+B B B
+A B B
+
+To test UC versus BFS:
+UC: R R U U U U
+BFS: U U U U R R

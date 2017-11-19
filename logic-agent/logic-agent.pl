@@ -1,6 +1,7 @@
 :- discontiguous agent/3.
 :- discontiguous rock/3.
 :- discontiguous blank/3.
+:- discontiguous obstacle/2.
 
 :- include('initial-state').
 :- include('query').

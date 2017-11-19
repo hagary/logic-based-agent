@@ -1,0 +1,6 @@
+3 3
+B B B
+P R A 
+T B B
+
+Succeeds with depth limit 20.

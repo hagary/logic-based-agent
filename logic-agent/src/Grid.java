@@ -16,6 +16,7 @@ public class Grid {
 	private int obstaclesCount;
 	private Position agentPosition;
 	private Position teleportalPosition;
+	private String fileName;
 
 	public Cell[][] getGrid() {
 		return grid;
@@ -82,26 +83,6 @@ public class Grid {
 			}
 		}
 	}
-	public void fillGridRandomly(){
-		/*
-		 * Assign agent location to a random blank cell.
-		 */
-		Random random = new Random();
-		int x = random.nextInt(m);
-		int y = random.nextInt(n);
-		agentPosition = new Position(x, y);
-
-		/*
-		 * Create and assign one teleportal cell.
-		 */
-		createCells(1, CellType.TELEPORTAL);
-		/*
-		 * Create and assign pressure pads, rocks, and obstacles cells.
-		 */
-		createCells(padsCount, CellType.PAD);
-		createCells(rocksCount, CellType.ROCK); 
-		createCells(obstaclesCount, CellType.OBSTACLE);
-	}
 
 	public void createCells(int count, CellType type){
 		Random random = new Random();
@@ -129,48 +110,6 @@ public class Grid {
 		}
 	}
 
-	/* isActivated:
-	 * Returns true if all rocks are placed on pressure pads
-	 * and hence the teleportal is activated.
-	 */
-	public boolean isActivated(){
-		/*
-		 * If all cells in the grid are NOT of type ROCK, then all rocks are on
-		 * pressure pads (instead they are cells of type ROCKONPAD).
-		 */
-		for (int i = 0; i < m; i++) {
-			for (int j = 0; j < n; j++) {
-				if(grid[i][j].getType() == CellType.ROCK)
-					return false;
-			}
-		}
-		return true;
-	}
-
-	public boolean liesInGrid(Position p){
-		/*
-		 * Check that the position (of a given cell) is in the valid range of the grid.
-		 */
-		if(p.getX() >= 0 && p.getX() < this.m)
-			if(p.getY() >=  0 && p.getY() < this.n)
-				return true;
-		return false;
-	}
-	public static Position nextCell(Position curr, Operator op){
-		int x = curr.getX(); int y = curr.getY();
-		/*
-		 * x represents the row number.
-		 * y represents the column number.
-		 */
-		switch(op){
-		case UP: x--; break;
-		case DOWN: x++; break;
-		case RIGHT: y++; break;
-		case LEFT: y--; break;
-		}
-
-		return new Position(x,y);
-	}
 	public void addCell(int i, int j, CellType t){
 		/*
 		 * Create a cell in position (i,j) of type t,
@@ -185,47 +124,7 @@ public class Grid {
 			break;
 		}
 	}
-	public Grid clone(){
-		/*
-		 * Deep cloning of the cells in the grid array.
-		 */
-		/*
-		 * 1. Create a new grid with the same counts of items.
-		 */
-		Grid newGrid = new Grid(this.m, this.n, this.padsCount, 
-				this.rocksCount, this.obstaclesCount);
-		/*
-		 * 2. Clone the cells.
-		 */
-		Cell [][] gridArray = new Cell[m][n];
-		for (int i = 0; i < m; i++) {
-			for (int j = 0; j < n; j++) {
-				gridArray[i][j] = this.grid[i][j].clone();
-			}
-		}
-		newGrid.grid = gridArray;
-		/*
-		 * 3. Clone teleportal and agent positions.
-		 */
-		newGrid.agentPosition = this.agentPosition.clone();
-		newGrid.teleportalPosition = this.teleportalPosition.clone();
-		return newGrid;
-	}
-	public boolean equals(Grid g)
-	{
-		/*
-		 * Deep Comparison
-		 * Compares the rock positions and the agent position.
-		 */
-		if (!this.getAgentPosition().equals(g.getAgentPosition()))
-			return false;
-		ArrayList<Position> myRockPosition = this.getRocksPositions();
-		ArrayList<Position> gRockPosition = g.getRocksPositions();
-		for (int i = 0; i < rocksCount; i++)
-			if (!myRockPosition.get(i).equals(gRockPosition.get(i)))
-				return false;
-		return true;
-	}
+
 	public ArrayList<Position> getPositionsofTypes(EnumSet<CellType> types){
 		/*
 		 * Returns a list of the positions of cells of the given type in the grid.
@@ -297,6 +196,7 @@ public class Grid {
 		 */
 		int m = sc.nextInt(); int n = sc.nextInt();
 		Grid g = new Grid(m, n);
+		g.fileName = fileName;
 
 		/*
 		 * Parse the file and set cell types accordingly.
@@ -329,7 +229,7 @@ public class Grid {
 		return g;
 	}
 	public void writePrologFacts() throws FileNotFoundException {
-		PrintWriter pw = new PrintWriter(new File("initial-state.pl"));
+		PrintWriter pw = new PrintWriter(new File("initial-state-" + fileName + ".pl"));
 		String initialState = "s0";
 
 		/*
@@ -366,7 +266,7 @@ public class Grid {
 	}
 	public void writePrologQuery() throws FileNotFoundException
 	{
-		PrintWriter pw = new PrintWriter(new File("query.pl"));
+		PrintWriter pw = new PrintWriter(new File("query-" + fileName + ".pl"));
 		pw.println("query(S):-");
 		pw.printf("agent(%d,%d,S)", teleportalPosition.getX(), teleportalPosition.getY());
 		for (int i = 0;i < m; i++)

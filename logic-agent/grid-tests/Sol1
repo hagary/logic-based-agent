@@ -1,6 +1,6 @@
 3 3
-B B T
-B R O
-A P O
+P O O
+R T O
+A O O
 
-Grid with one rock and one pad and same SOLUTION for BFS and UC.
+Succeeds with depth limit 19.

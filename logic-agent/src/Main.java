@@ -8,7 +8,7 @@ public class Main {
 		/*
 		 * Uncomment the following line to input the file name of a manual grid.
 		 */
-		Grid grid = Grid.createGridFromFile("Sol1");
+		Grid grid = Grid.createGridFromFile("Sol3");
 		/*
 		 * Generate a random grid.
 		 */

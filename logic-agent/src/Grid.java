@@ -244,7 +244,7 @@ public class Grid {
 		for (int i = 0; i < m; i++) {
 			for (int j = 0; j < n; j++) {
 				switch (grid[i][j].getType()) {
-				case BLANK: pw.printf("blank(%d, %d, %s).\n", i, j, initialState);
+				case BLANK:
 				break;
 				case OBSTACLE: pw.printf("obstacle(%d, %d).\n", i, j);
 				break;

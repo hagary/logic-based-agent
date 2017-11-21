@@ -4,12 +4,12 @@
 
 :- discontiguous agent/3.
 :- discontiguous rock/3.
-:- discontiguous blank/3.
 :- discontiguous obstacle/2.
+:- discontiguous pad/2.
 
 %--------------------------Imports----------------------------------------------
-:- include('initial-state-Sol2').
-:- include('query-Sol2').
+:- include('initial-state-Sol1').
+:- include('query-Sol1').
 :- use_module(library(clpfd)).
 %-------------------------------------------------------------------------------
 
@@ -19,14 +19,14 @@ obstacle(-1,-1). % To eliminate errors in case no obstacle is present.
 %------------------------Helper Predicates--------------------------------------
 
 % **next_cell** works both ways to get the position of the neighbouring cell in the direction of a given action.
-next_cell(up, R, C, RNew, CNew):-
-  RNew #= R - 1, CNew #= C.
-next_cell(down, R, C, RNew, CNew):-
-  RNew #= R + 1, CNew #= C.
-next_cell(right, R, C, RNew, CNew):-
-  CNew #= C + 1, RNew #= R.
-next_cell(left, R, C, RNew, CNew):-
-  CNew #= C - 1, RNew #= R.
+next_cell(up, R, C, RNext, CNext):-
+  RNext #= R - 1, CNext #= C.
+next_cell(down, R, C, RNext, CNext):-
+  RNext #= R + 1, CNext #= C.
+next_cell(right, R, C, RNext, CNext):-
+  CNext #= C + 1, RNext #= R.
+next_cell(left, R, C, RNext, CNext):-
+  CNext #= C - 1, RNext #= R.
 
 % **valid** checks that a given cell position is within the dimensions of the grid.
 valid(R,C):-
@@ -40,7 +40,6 @@ rock(R, C, result(A,S)):-
   % It was not true & sth made it true.
   \+(obstacle(R,C)),
   valid(R,C),
-  % action(A),
   next_cell(A, ROld, COld, R, C),
   next_cell(A, RAgent, CAgent, ROld, COld),
   \+(rock(R,C,S)),
@@ -68,10 +67,8 @@ rock(R, C, result(A,S)):-
 %-------------------------------AGENT-------------------------------------------
 agent(R, C, result(A,S)):-
   % It was not true & sth made it true.
-  % action(A),
   valid(R,C),
   next_cell(A, RAgent, CAgent, R, C),
-  valid(RAgent, CAgent),
   % Aspired cell is neither a rock nor an obstacle.
   ((
     \+obstacle(R,C),

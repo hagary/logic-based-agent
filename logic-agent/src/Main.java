@@ -7,14 +7,17 @@ public class Main {
 		Grid grid1 = Grid.createGridFromFile("Sol1");
 		Grid grid2 = Grid.createGridFromFile("Sol2");
 		Grid grid3 = Grid.createGridFromFile("Sol3");
+		Grid grid4 = Grid.createGridFromFile("Sol4");
 		
 		GenGrid(grid1);
 		GenGrid(grid2);
 		GenGrid(grid3);
+		GenGrid(grid4);
 		
 		System.out.println(grid1);
 		System.out.println(grid2);
 		System.out.println(grid3);
+		System.out.println(grid4);
 	}
 	public static void GenGrid(Grid g) throws FileNotFoundException{
 		g.writePrologFacts();

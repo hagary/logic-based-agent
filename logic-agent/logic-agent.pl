@@ -5,10 +5,11 @@
 :- discontiguous agent/3.
 :- discontiguous rock/3.
 :- discontiguous obstacle/2.
+:- discontiguous pad/2.
 
 %--------------------------Imports----------------------------------------------
-:- include('initial-state-Sol3').
-:- include('query-Sol3').
+:- include('initial-state-Sol1').
+:- include('query-Sol1').
 :- use_module(library(clpfd)).
 %-------------------------------------------------------------------------------
 
@@ -39,7 +40,6 @@ rock(R, C, result(A,S)):-
   % It was not true & sth made it true.
   \+(obstacle(R,C)),
   valid(R,C),
-  % action(A),
   next_cell(A, ROld, COld, R, C),
   next_cell(A, RAgent, CAgent, ROld, COld),
   \+(rock(R,C,S)),
@@ -67,10 +67,8 @@ rock(R, C, result(A,S)):-
 %-------------------------------AGENT-------------------------------------------
 agent(R, C, result(A,S)):-
   % It was not true & sth made it true.
-  % action(A),
   valid(R,C),
   next_cell(A, RAgent, CAgent, R, C),
-  valid(RAgent, CAgent),
   % Aspired cell is neither a rock nor an obstacle.
   ((
     \+obstacle(R,C),
